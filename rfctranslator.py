@@ -22,10 +22,10 @@ def downloadHtmlPage(url,tmpf = ''):
 	time.sleep(0.2)
 	return fileName
 
-
+#此处参考网络代码
 def baidu_translate(content):
-	appid = '20200614000494887'  # 填写你的appid
-	secretKey = 'Xng8ScG54GURtCkkRIhI'  # 填写你的密钥
+	appid = 'xxx'  # 填写你的appid
+	secretKey = 'xxx'  # 填写你的密钥
 	httpClient = None
 	myurl = '/api/trans/vip/translate'
 	fromLang = 'en'   #原文语种
@@ -66,6 +66,7 @@ def translateRFCs(srcfile, dstfile):
 	rn_flag = 0
 	rstr = rfcfile_en.readline()
 	rstr.lstrip()
+	#识别标题行
 	while (rstr != ''):
 		r1 = re.match('^\d.', rstr)
 		r2 = re.match('^\w\)', rstr)
@@ -74,7 +75,7 @@ def translateRFCs(srcfile, dstfile):
 		r5 = rstr.find('. ')
 		r6 = re.match('^\d-', rstr)
 		r7 = re.match('.\n$', rstr)
-        
+                #简单识别RFC中的图形
 		#l1 = len(rstr)
 		if ((rstr.count('_') > 5) or (rstr.count('-') > 5) or (rstr.count('+') > 5) or (rstr.count('.') > 5)) :
 			if (tmp != '') :
@@ -93,6 +94,7 @@ def translateRFCs(srcfile, dstfile):
 			rstr = rfcfile_en.readline()
 			rstr.lstrip()
 			continue
+	        #对于属于同一段的文字需去掉换行符，提高翻译质量
 		if ((r1 != None) or (r2 != None) or (r3 == 0) or (r4 == 0) or (r5 == 0) or (r6 != None)) :
 			if (tmp != '') :
 				str_cn = baidu_translate(tmp)
@@ -136,7 +138,7 @@ def translateRFCs(srcfile, dstfile):
 # http://www.networksorcery.com/enp/rfc/rfc1000.txt
 # http://www.networksorcery.com/enp/rfc/rfc6409.txt
 if __name__ == '__main__':
-	dirPath = "RFC"
+	dirPath = "RFC"  #需要提前创建RFC文件
 	addr = 'http://www.ietf.org/rfc'
 	if len(sys.argv) < 2 :
 		#addr = 'http://www.networksorcery.com/enp/rfc'
